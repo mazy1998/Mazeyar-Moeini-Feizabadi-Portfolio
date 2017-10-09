@@ -1,9 +1,14 @@
+##runs on python 2.7 should run without modules, uses brute force and is highely inefficient. 
 from Tkinter import *
 import time
 import random
 import math as m
 perms = []
+
+##The number of random points on the grid. Time complexity increases factorialy.
 num2=6
+
+
 dots =""
 num5=800
 num7= 1000
@@ -22,6 +27,7 @@ d1=0
 d2=0
 bestpath = []
 worstpath = []
+
 ##makes random points
 for z in range(0,num2):    
     x =random.randint(0,num5)
@@ -29,6 +35,7 @@ for z in range(0,num2):
     points.append(str(str(x)+','+str(y)))
     xc.append(x)
     yc.append(y)
+
 ##finds every distance
 for w in range(0,num2):
     for p in range(0,num2):
@@ -36,6 +43,7 @@ for w in range(0,num2):
     distances.append(w+1)
     distances.append(tempdistance)
     tempdistance= []
+
 ##efficeint perms of the different paths from perms.py by David Wright       
 for t in range(1,num2+1):
         dots = str(dots)+str(t)
@@ -66,6 +74,7 @@ for q in range(0,len(perms)):
     sumofdistances.append(sum(tempdistance))   
     tempdistance = []       
     
+##prints the paths
 print "Most Efficient Route",min(sumofdistances),perms[int(sumofdistances.index(min(sumofdistances)))]
 print "Most Inefficient Route",max(sumofdistances),perms[int(sumofdistances.index(max(sumofdistances)))]
 bestpath=perms[int(sumofdistances.index(min(sumofdistances)))]
