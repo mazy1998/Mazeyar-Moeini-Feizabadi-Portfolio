@@ -1,12 +1,12 @@
-##runs on python 2.7 should run without modules, uses brute force and is highely inefficient. 
-from Tkinter import *
+##runs on python 3.6 should run without modules, uses brute force and is highely inefficient. From python 2.7 to 3.6 only required a few syntax updates.
+from tkinter import *
 import time
 import random
 import math as m
 perms = []
 
 ##The number of random points on the grid. Time complexity increases factorialy.
-num2=6
+num2=5
 
 
 dots =""
@@ -75,8 +75,8 @@ for q in range(0,len(perms)):
     tempdistance = []       
     
 ##prints the paths
-print "Most Efficient Route",min(sumofdistances),perms[int(sumofdistances.index(min(sumofdistances)))]
-print "Most Inefficient Route",max(sumofdistances),perms[int(sumofdistances.index(max(sumofdistances)))]
+print("Most Efficient Route",min(sumofdistances),perms[int(sumofdistances.index(min(sumofdistances)))])
+print("Most Inefficient Route",max(sumofdistances),perms[int(sumofdistances.index(max(sumofdistances)))])
 bestpath=perms[int(sumofdistances.index(min(sumofdistances)))]
 worstpath=perms[int(sumofdistances.index(max(sumofdistances)))]
 
