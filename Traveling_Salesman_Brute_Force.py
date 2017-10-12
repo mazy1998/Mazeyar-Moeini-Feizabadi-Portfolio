@@ -4,7 +4,7 @@ from tkinter import *
 import time
 import random
 import math as m
-num2 =12
+num2 = cities =7
 vals = []
 num5=800
 num7= 1000
