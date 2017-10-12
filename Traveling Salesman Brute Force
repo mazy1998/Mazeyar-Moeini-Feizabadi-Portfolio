@@ -4,9 +4,8 @@ from tkinter import *
 import time
 import random
 import math as m
-num2 =5
-dots=""
-perms =[]
+num2 =12
+vals = []
 num5=800
 num7= 1000
 points= []
@@ -23,6 +22,16 @@ b=10**12
 c=0
 
 
+def swap(a,i,j):
+    temp = a[i]
+    a[i]=a[j]
+    a[j] = temp
+
+def perms(n):
+    if n==1:
+        return 1
+    else:
+        return n*perms(n-1)
 
 ##makes random points
 for z in range(0,num2):    
@@ -41,26 +50,13 @@ for w in range(0,num2):
 
 ##permutation function
 for t in range(0,num2):
-        dots = str(dots)+str(t)
-def perm2(lst):
-	if len(lst) == 0:
-		yield []
-	elif len(lst) == 1:
-		yield lst
-	else:
-		for i in range(len(lst)):
-			x = lst[i]
-			xs = lst[:i] + lst[i+1:]
-			for p in perm2(xs):
-				yield [x] + p
-                
-data = list(dots)
+        vals.append(t)
 
-
-
-for p in perm2(data):    
-    p.append(p[0])
-    tempperms = p
+for p in range(0,int(perms(len(vals)-1))):  
+    
+    tempperms = vals[:]
+    tempperms+=[0]
+    
     #finds the distance of the permutation with appending it to a list.
     for s in range(0,len(tempperms)-1):
         
@@ -70,11 +66,35 @@ for p in perm2(data):
     ## simple if staments to remember the worst and best distances/paths without list.   
     if sum(tempdistance)<b:
             b=sum(tempdistance)
+            print(b)
             bestpath = tempperms
     if sum(tempdistance)>c:
             c=sum(tempdistance)
             worstpath = tempperms
     tempdistance = []
+
+    ##step 1
+    largestI= -1
+    for i in range(0,len(vals)-1):
+        if vals[i]<vals[i+1]:
+            largestI = i
+
+    if largestI == -1:
+        print("finished")
+        break
+    
+    ##step 2    
+    largestJ= -1
+    for j in range(0,len(vals)):
+        if vals[largestI] < vals[j]:
+            largestJ = j
+    ##step 3        
+    swap(vals, largestI, largestJ)
+
+    ##step 4
+    endArray = vals[largestI+1:len(vals)]
+    endArray.reverse()
+    vals = vals[0:largestI+1] + endArray
 
 print("Most Efficient Route",b,bestpath)
 print("Most Inefficient Route",c,worstpath)
