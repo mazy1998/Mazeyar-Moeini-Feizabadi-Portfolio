@@ -1,86 +1,105 @@
-##runs on python 2.7 should run without modules, uses brute force and is highely inefficient. 
-from Tkinter import *
+#uses embeded tuples for points, runs every permutation when its created and does not have a list of permutations(size x!).
+#without uses lists of size x! this program uses much less memory and is only bottle necked by cpu power.
+from tkinter import *
 import time
 import random
 import math as m
-perms = []
-
-##The number of random points on the grid. Time complexity increases factorialy.
-num2=6
-
-
-dots =""
+num2 =12
+vals = []
 num5=800
 num7= 1000
 points= []
-xc=[]
-yc=[]
 tempdistance= []
 distances = []
 tempperms= []
-sumofdistances = []
 tempdistance = []
-ptop = 0
-p1 =0
-p2 =0
 d1=0
 d2=0
 bestpath = []
 worstpath = []
+a=0
+b=10**12
+c=0
+
+
+def swap(a,i,j):
+    temp = a[i]
+    a[i]=a[j]
+    a[j] = temp
+
+def perms(n):
+    if n==1:
+        return 1
+    else:
+        return n*perms(n-1)
 
 ##makes random points
 for z in range(0,num2):    
     x =random.randint(0,num5)
     y= random.randint(0,num5)
-    points.append(str(str(x)+','+str(y)))
-    xc.append(x)
-    yc.append(y)
+    points.append((x,y))
+    
 
 ##finds every distance
 for w in range(0,num2):
     for p in range(0,num2):
-        tempdistance.append(m.sqrt((xc[p]-xc[w])**2+(yc[p]-yc[w])**2))
-    distances.append(w+1)
+        tempdistance.append(m.sqrt((points[p][0]-points[w][0])**2+(points[p][1]-points[w][1])**2))
     distances.append(tempdistance)
     tempdistance= []
 
-##efficeint perms of the different paths from perms.py by David Wright       
-for t in range(1,num2+1):
-        dots = str(dots)+str(t)
-def perm2(lst):
-	if len(lst) == 0:
-		yield []
-	elif len(lst) == 1:
-		yield lst
-	else:
-		for i in range(len(lst)):
-			x = lst[i]
-			xs = lst[:i] + lst[i+1:]
-			for p in perm2(xs):
-				yield [x] + p
-data = list(dots)
-for p in perm2(data):    
-    p.append(p[0])
-    perms.append(p)
+
+##permutation function
+for t in range(0,num2):
+        vals.append(t)
+
+for p in range(0,int(perms(len(vals)-1))):  
     
-##finds all the different paths including distances
-for q in range(0,len(perms)):
-    tempperms = perms[q]
+    tempperms = vals[:]
+    tempperms+=[0]
+    
+    #finds the distance of the permutation with appending it to a list.
     for s in range(0,len(tempperms)-1):
+        
         p1 = int(tempperms[s])
         p2 = int(tempperms[s+1])
-        ptop = distances[distances.index(int(tempperms[s]))+1]
-        tempdistance.append(ptop[p2-1])
-    sumofdistances.append(sum(tempdistance))   
-    tempdistance = []       
-    
-##prints the paths
-print "Most Efficient Route",min(sumofdistances),perms[int(sumofdistances.index(min(sumofdistances)))]
-print "Most Inefficient Route",max(sumofdistances),perms[int(sumofdistances.index(max(sumofdistances)))]
-bestpath=perms[int(sumofdistances.index(min(sumofdistances)))]
-worstpath=perms[int(sumofdistances.index(max(sumofdistances)))]
+        tempdistance.append(distances[p1][p2])
+    ## simple if staments to remember the worst and best distances/paths without list.   
+    if sum(tempdistance)<b:
+            b=sum(tempdistance)
+            print(b)
+            bestpath = tempperms
+    if sum(tempdistance)>c:
+            c=sum(tempdistance)
+            worstpath = tempperms
+    tempdistance = []
 
-##creates frame        
+    ##step 1
+    largestI= -1
+    for i in range(0,len(vals)-1):
+        if vals[i]<vals[i+1]:
+            largestI = i
+
+    if largestI == -1:
+        print("finished")
+        break
+    
+    ##step 2    
+    largestJ= -1
+    for j in range(0,len(vals)):
+        if vals[largestI] < vals[j]:
+            largestJ = j
+    ##step 3        
+    swap(vals, largestI, largestJ)
+
+    ##step 4
+    endArray = vals[largestI+1:len(vals)]
+    endArray.reverse()
+    vals = vals[0:largestI+1] + endArray
+
+print("Most Efficient Route",b,bestpath)
+print("Most Inefficient Route",c,worstpath)
+
+##uses tkinter to display that paths.
 class MyFrame(Frame):
     def __init__(self):
             Frame.__init__(self)
@@ -88,12 +107,11 @@ class MyFrame(Frame):
             self.myCanvas.grid()
             for z in range(0, num2):
                     d1 = int(bestpath[z])
-                    d2 = int(bestpath[z+1])                   
-                    self.myCanvas.create_line(xc[d1-1],yc[d1-1],xc[d2-1],yc[d2-1],fill="green")
+                    d2 = int(bestpath[z+1])
+                    self.myCanvas.create_line(points[d1][0],points[d1][1],points[d2][0],points[d2][1],fill="green")
             for h in range(0,num2):
                     d1 = int(worstpath[h])
                     d2 = int(worstpath[h+1])
-                    self.myCanvas.create_line(xc[d1-1],yc[d1-1],xc[d2-1],yc[d2-1],fill="red")
-            
+                    self.myCanvas.create_line(points[d1][0],points[d1][1],points[d2][0],points[d2][1],fill="red")
 frame02=MyFrame()
 frame02.mainloop()
