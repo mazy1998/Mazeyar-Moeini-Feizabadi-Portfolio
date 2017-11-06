@@ -1,4 +1,4 @@
-## Creates a Koch curve?snowflake using recursion and a rainbow function.
+## Creates a Koch curve/snowflake using recursion and a rainbow function.
 import turtle
 import math
 bob = turtle.Turtle()
