@@ -110,6 +110,7 @@ def makeEquation(coefs, ints):
              
     return final1
 
+#Object that is the window using tkinter
 class LinearRegression(tk.Tk):
 
     def __init__(self, *args, **kwargs):        
@@ -121,7 +122,7 @@ class LinearRegression(tk.Tk):
         container.grid_columnconfigure(0, weight=1)        
         self.frames = {}
 
-        for F in (StartPage, PageThree):
+        for F in (StartPage, GraphPage):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -131,7 +132,7 @@ class LinearRegression(tk.Tk):
         frame = self.frames[cont]
         frame.tkraise()
 
-        
+#object that is the startpage        
 class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -139,11 +140,11 @@ class StartPage(tk.Frame):
         label = tk.Label(self, text="Start Page", font=LARGE_FONT)
         label.grid(row=0)
         button3 = ttk.Button(self, text="Graph Page",
-                            command=lambda: controller.show_frame(PageThree))
+                            command=lambda: controller.show_frame(GraphPage))
         button3.grid(row=2)
         
-        
-class PageThree(tk.Frame):
+#object that is the graph page        
+class GraphPage(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)        
