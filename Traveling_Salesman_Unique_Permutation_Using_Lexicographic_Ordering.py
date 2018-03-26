@@ -14,12 +14,12 @@ def perms(n):
     else:
         return n*perms(n-1)
     
-## Dans version would run through all x! perms, but we only need (x-1)!/2 in a
+## Dans version would run through all x! perms, but we only need (x-1)! in a
 ## closed loop with no reversals.
 ##while 1:
 ##  ^^ for all perms
     
-for p in range(0,perms(len(vals)-1)/2):
+for p in range(0,perms(len(vals)-1)):
     print vals
     
     ##step 1
