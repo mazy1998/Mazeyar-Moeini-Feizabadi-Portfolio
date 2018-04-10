@@ -65,6 +65,7 @@ class MyFrame(Frame):
                 d1 = int(bestpath[z])
                 d2 = int(bestpath[z+1]) 
                 self.myCanvas.create_line(points[d1][0],points[d1][1],points[d2][0],points[d2][1],fill="green")
+                time.sleep(.1)
             
 frame02=MyFrame()
 frame02.mainloop()
