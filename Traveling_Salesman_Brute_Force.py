@@ -85,7 +85,7 @@ class MyFrame(Frame):
                             d2 = int(bestpath[z+1])                            
                             self.myCanvas.create_line(points[d1][0],points[d1][1],points[d2][0],points[d2][1],fill="green")
                             self.myCanvas.update()                    
-                        time.sleep(.1)
+                        time.sleep(.2)
                         
                 if sum(tempdistance)>c:
                         c=sum(tempdistance)
